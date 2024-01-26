@@ -69,7 +69,7 @@ class SliderController extends Controller
         return $request->validate([
             'name' => ['nullable', 'string', 'min:3'],
             'web_view' => ['required', 'boolean'],
-            'link' => ['required_if:web_view,true', 'nullable', 'string', 'min:3'],
+            'link' => ['required_if:web_view,true', 'nullable', 'string', 'url'],
             'lang' => ['required', 'string'],
             'image' => ['required', 'file'],
             'priority' => ['required', 'integer']
@@ -81,9 +81,9 @@ class SliderController extends Controller
         return $request->validate([
             'name' => ['nullable', 'string', 'min:3'],
             'web_view' => ['required', 'boolean'],
-            'link' => ['required_if:web_view,true', 'nullable', 'string', 'min:3'],
+            'link' => ['required_if:web_view,true', 'nullable', 'string', 'url'],
             'lang' => ['required', 'string'],
-            'image' => ['file'],
+            'image' => ['nullable', 'file'],
             'priority' => ['required', 'integer']
         ]);
     }

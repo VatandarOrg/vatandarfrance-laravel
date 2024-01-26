@@ -34,4 +34,18 @@ Route::middleware(['auth', 'can:admin dashboard'])->group(function (Router $rout
             $router->resource('sliders', App\Http\Controllers\Admin\SliderController::class)->except(['show']);
         }
     );
+
+    Route::group(
+        ['middleware' => ['can:crud section']],
+        function (Router $router) {
+            $router->resource('sections', App\Http\Controllers\Admin\SectionController::class)->except(['show']);
+        }
+    );
+
+    Route::group(
+        ['middleware' => ['can:crud box']],
+        function (Router $router) {
+            $router->resource('boxes', App\Http\Controllers\Admin\BoxController::class)->except(['show']);
+        }
+    );
 });

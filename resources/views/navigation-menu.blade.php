@@ -16,16 +16,22 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
-                        {{ __('Users') }}
+                        {{ __('User') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('admin.permissions.index') }}" :active="request()->routeIs('admin.permissions.*')">
-                        {{ __('Permissions') }}
+                        {{ __('Permission') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('admin.roles.index') }}" :active="request()->routeIs('admin.roles.*')">
-                        {{ __('Roles') }}
+                        {{ __('Role') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('admin.sliders.index') }}" :active="request()->routeIs('admin.sliders.*')">
-                        {{ __('Sliders') }}
+                        {{ __('Slider') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.sections.index') }}" :active="request()->routeIs('admin.sections.*')">
+                        {{ __('Section') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.boxes.index') }}" :active="request()->routeIs('admin.boxes.*')">
+                        {{ __('Box') }}
                     </x-nav-link>
                 </div>
             </div>

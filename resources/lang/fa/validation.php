@@ -55,6 +55,7 @@ return [
         'numeric' => ':Attribute باید بزرگتر یا مساوی :value باشد.',
         'string'  => ':Attribute باید بیشتر یا مساوی :value کاراکتر داشته باشد.',
     ],
+    'hex_color'            => 'فرمت رنگ وارد شده صحیح نیست',
     'image'                => ':Attribute باید یک تصویر معتبر باشد.',
     'in'                   => ':Attribute انتخاب شده، معتبر نیست.',
     'in_array'             => 'فیلد :attribute در لیست :other وجود ندارد.',

@@ -27,57 +27,57 @@ class Karensa extends Command
         $time = microtime(true);
         $bar->start();
 
-        // $this->newLine(2);
-        // $this->call('karensa:model', [
-        //     'name' => $this->argument('name'),
-        //     '--photo' => $photo,
-        //     '--possession' => $possession,
-        //     '--parent' => $parent,
-        // ]);
-        // $bar->advance();
-        // sleep(3);
+        $this->newLine(2);
+        $this->call('karensa:model', [
+            'name' => $this->argument('name'),
+            '--photo' => $photo,
+            '--possession' => $possession,
+            '--parent' => $parent,
+        ]);
+        $bar->advance();
+        sleep(3);
 
-        // $this->newLine(2);
-        // $this->call('karensa:migration', [
-        //     'name' => $this->argument('name'),
-        // ]);
-        // $bar->advance();
-        // sleep(3);
+        $this->newLine(2);
+        $this->call('karensa:migration', [
+            'name' => $this->argument('name'),
+        ]);
+        $bar->advance();
+        sleep(3);
 
-        // if ($api) {
-        //     $this->newLine(2);
-        //     $this->call('karensa:resource', [
-        //         'name' => $this->argument('name'),
-        //     ]);
-        //     $bar->advance();
-        //     sleep(3);
-        // }
+        if ($api) {
+            $this->newLine(2);
+            $this->call('karensa:resource', [
+                'name' => $this->argument('name'),
+            ]);
+            $bar->advance();
+            sleep(3);
+        }
 
-        // $this->newLine(2);
-        // $this->call('karensa:service', [
-        //     'name' => $this->argument('name'),
-        //     '--photo' => $photo,
-        // ]);
-        // $bar->advance();
-        // sleep(3);
+        $this->newLine(2);
+        $this->call('karensa:service', [
+            'name' => $this->argument('name'),
+            '--photo' => $photo,
+        ]);
+        $bar->advance();
+        sleep(3);
 
 
-        // $this->newLine(2);
-        // $this->call('karensa:response', [
-        //     'name' => $this->argument('name'),
-        //     '--api' => $api,
-        //     '--admin' => $admin,
-        // ]);
-        // $bar->advance();
-        // sleep(3);
+        $this->newLine(2);
+        $this->call('karensa:response', [
+            'name' => $this->argument('name'),
+            '--api' => $api,
+            '--admin' => $admin,
+        ]);
+        $bar->advance();
+        sleep(3);
 
-        // $this->newLine(2);
-        // $this->call('karensa:protection', [
-        //     'name' => $this->argument('name'),
-        //     '--possession' => $possession,
-        // ]);
-        // $bar->advance();
-        // sleep(3);
+        $this->newLine(2);
+        $this->call('karensa:protection', [
+            'name' => $this->argument('name'),
+            '--possession' => $possession,
+        ]);
+        $bar->advance();
+        sleep(3);
 
         $this->newLine(2);
         $this->call('karensa:controller', [
@@ -90,14 +90,14 @@ class Karensa extends Command
         sleep(3);
 
 
-        // if ($blade) {
-        //     $this->newLine(2);
-        //     $this->call('karensa:blade', [
-        //         'name' => $this->argument('name'),
-        //     ]);
-        //     sleep(3);
-        // }
-        // $bar->advance();
+        if ($blade) {
+            $this->newLine(2);
+            $this->call('karensa:blade', [
+                'name' => $this->argument('name'),
+            ]);
+            sleep(3);
+        }
+        $bar->advance();
 
         $bar->finish();
         $time = round(microtime(true) - $time, 5);
