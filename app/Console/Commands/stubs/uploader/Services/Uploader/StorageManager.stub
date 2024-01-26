@@ -14,22 +14,22 @@ class StorageManager
 
     public function getAbsolutePathOf(string $name, string $format)
     {
-        return Storage::disk('public')->path($this->directoryPrefix($format, $name));
+        return Storage::path($this->directoryPrefix($format, $name));
     }
 
     public function isFileExists(string $name, string $format)
     {
-        return Storage::disk('public')->exists($this->directoryPrefix($format, $name));
+        return Storage::exists($this->directoryPrefix($format, $name));
     }
 
     public function getFile(string $name, string $format)
     {
-        return Storage::disk('public')->download($this->directoryPrefix($format, $name));
+        return Storage::download($this->directoryPrefix($format, $name));
     }
 
     public function deleteFile(string $name, string $format)
     {
-        return Storage::disk('public')->delete($this->directoryPrefix($format, $name));
+        return Storage::delete($this->directoryPrefix($format, $name));
     }
 
     private function directoryPrefix($format, $name)

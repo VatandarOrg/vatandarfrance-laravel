@@ -24,8 +24,8 @@
                     <x-nav-link href="{{ route('admin.roles.index') }}" :active="request()->routeIs('admin.roles.*')">
                         {{ __('Roles') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.files.index') }}" :active="request()->routeIs('admin.files.*')">
-                        {{ __('Files') }}
+                    <x-nav-link href="{{ route('admin.sliders.index') }}" :active="request()->routeIs('admin.sliders.*')">
+                        {{ __('Sliders') }}
                     </x-nav-link>
                 </div>
             </div>

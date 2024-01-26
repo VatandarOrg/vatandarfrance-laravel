@@ -7,10 +7,6 @@ Route::middleware(['auth', 'can:admin dashboard'])->group(function (Router $rout
 
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
-    $router->resource('files', App\Http\Controllers\Admin\FileController::class)->except(['create', 'show']);
-    $router->view('files/create', 'admin.files.create')->name('files.create');
-
-
     Route::group(
         ['middleware' => ['can:crud role']],
         function (Router $router) {
@@ -29,6 +25,13 @@ Route::middleware(['auth', 'can:admin dashboard'])->group(function (Router $rout
         ['middleware' => ['can:crud user']],
         function (Router $router) {
             $router->resource('users', App\Http\Controllers\Admin\UserController::class)->except(['show']);
+        }
+    );
+
+    Route::group(
+        ['middleware' => ['can:crud slider']],
+        function (Router $router) {
+            $router->resource('sliders', App\Http\Controllers\Admin\SliderController::class)->except(['show']);
         }
     );
 });
