@@ -30,8 +30,8 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string']
+            'username' => ['required', 'string'],
+            'password' => ['required', 'string'],
         ];
     }
 
@@ -46,11 +46,11 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (! (Auth::attempt($this->only('email', 'password'), $this->boolean('remember')) || Auth::attempt($this->only('mobile', 'password'), $this->boolean('remember')))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
+                'username' => __('auth.failed'),
             ]);
         }
 

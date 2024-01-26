@@ -20,9 +20,7 @@ class UserWithoutRelationResource extends JsonResource
             'first_name' => (string) $this->first_name,
             'last_name' => (string) $this->last_name,
             'email' => (string) $this->email,
-            'username' => $this->username,
-            'provider' => $this->provider,
-            'provider_id' => $this->provider_id,
+            'mobile' => $this->mobile,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

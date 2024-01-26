@@ -24,13 +24,4 @@ class AuthenticatedController extends Controller
 
         return response()->json(["status" => "success", "message" => "Success! Logout completed"]);
     }
-
-    public function isValidUsername($username)
-    {
-        $validator = Validator::make(['username' => $username], [
-            'username' => 'unique:users,username,regex:/^[a-z0-9_.]{3,20}$/',
-        ]);
-
-        return AuthenticatedResponse::isValid(!$validator->fails());
-    }
 }

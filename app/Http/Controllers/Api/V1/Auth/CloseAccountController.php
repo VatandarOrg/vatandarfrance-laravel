@@ -15,8 +15,8 @@ class CloseAccountController extends Controller
     public function __invoke()
     {
         $user = auth()->user();
-        if (request()->username != $user->username) {
-            return response()->json(["status" => "error", "message" => "username invalid!"], Response::HTTP_UNPROCESSABLE_ENTITY);
+        if (request()->email != $user->email) {
+            return response()->json(["status" => "error", "message" => "email invalid!"], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $user = UserService::make($user)

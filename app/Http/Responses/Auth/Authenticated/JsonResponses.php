@@ -7,17 +7,13 @@ use App\Http\Resources\Api\V1\User\UserWithoutRelationResource;
 
 class JsonResponses
 {
-    public function loginOrSignup($register)
+    public function store($user)
     {
         return response()->json([
-            "isRegister" => $register,
-        ], Response::HTTP_OK);
-    }
-
-    public function isValid($isValid)
-    {
-        return response()->json([
-            "isValid" => $isValid,
+            "status" => "success",
+            "message" => __('message.store', ['model' => __('message.model.code')]),
+            "mobile" => $user['mobile'],
+            "name" => $user['name'],
         ], Response::HTTP_OK);
     }
 

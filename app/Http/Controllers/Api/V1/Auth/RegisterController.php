@@ -9,14 +9,26 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Milwad\LaravelValidate\Rules\ValidPhoneNumber;
+use App\Services\Auth\TwoFactorAuthentication;
+use App\Models\TwoFactor;
+use App\Models\User;
 
 class RegisterController extends Controller
 {
+    public function __construct(TwoFactorAuthentication $twoFactor)
+    {
+        User::whereNotNull('mobile')->whereNull('mobile_verified_at')->where('created_at', '<', now()->subSeconds(130))->forceDelete();
+        TwoFactor::where('created_at', '<', now()->subSeconds(120))->delete();
+
+        $this->twoFactor = $twoFactor;
+    }
+
     public function __invoke(Request $request)
     {
         $this->validateForm($request);
 
-        $inputs = $request->only('first_name', 'last_name', 'email', 'username', 'provider', 'provider_id') + ['password' => Hash::make($request->password)];
+        $inputs = $request->only('first_name', 'last_name', 'email', 'mobile') + ['password' => Hash::make($request->password), 'email_verified_at' => request()->email ? now() : null];
 
         event(
             new Registered(
@@ -26,8 +38,12 @@ class RegisterController extends Controller
             )
         );
 
-        $token = $user->createToken($request['username']);
+        if ($user->mobile) {
+            $result = $this->twoFactor->requestCode($user);
+            return ($result == TwoFactorAuthentication::CODE_SENT) ? AuthenticatedResponse::store($user) : AuthenticatedResponse::createFailed();
+        }
 
+        $token = $user->createToken($request['email']);
         return AuthenticatedResponse::login($user, $token);
     }
 
@@ -36,11 +52,9 @@ class RegisterController extends Controller
         return $request->validate([
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
-            'email' => ['required', 'string', 'email', 'unique:users,email'],
-            'username' => ['required', 'string', 'unique:users,username', 'regex:/^[a-z0-9_.]{3,20}$/'],
+            'email' => ['required_if:mobile,null', 'string', 'email', 'unique:users,email'],
+            'mobile' => ['required_if:email,null', 'numeric', new ValidPhoneNumber, 'unique:users,mobile'],
             'password' => ['required', Rules\Password::defaults()],
-            'provider' => ['nullable'],
-            'provider_id' => ['nullable']
         ]);
     }
 }

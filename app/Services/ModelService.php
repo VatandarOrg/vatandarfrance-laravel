@@ -107,6 +107,11 @@ abstract class ModelService
         }
     }
 
+    public function allWithRelationAndPaginate(array $relation = [], $pagination = 15)
+    {
+        return $this->model->query()->with($relation)->paginate($pagination);
+    }
+
     /**
      * @param  array  $data
      * @return Nullable

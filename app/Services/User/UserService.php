@@ -58,14 +58,19 @@ class UserService extends ModelService
         return parent::delete();
     }
 
+    public function findByUsername($username)
+    {
+        return $this->model->query()->where('mobile', $username)->orWhere('email', $username)->first();
+    }
+
+    public function findByMobile($mobile)
+    {
+        return $this->model->query()->firstWhere('mobile', $mobile);
+    }
+
     public function findByEmail($email)
     {
         return $this->model->query()->firstWhere('email', $email);
-    }
-
-    public function findByUsername($username, $relation = [], $count = [])
-    {
-        return $this->model->query()->with($relation)->withCount($count)->firstWhere('username', $username);
     }
 
     public function syncRoles(array $roles): bool
