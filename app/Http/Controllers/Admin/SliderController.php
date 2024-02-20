@@ -26,7 +26,7 @@ class SliderController extends Controller
     {
         $this->validateStoreForm(request());
         $inputs = request()->only([
-            'name', 'web_view', 'link', 'lang'
+            'name', 'web_view', 'link', 'lang', 'priority'
         ]);
         $slider = SliderService::new()
             ->create($inputs)
@@ -45,7 +45,7 @@ class SliderController extends Controller
         HeyMan::checkPoint('EnsureSliderIdExists');
         $this->validateUpdateForm(request());
         $inputs = request()->only([
-            'name', 'web_view', 'link', 'lang'
+            'name', 'web_view', 'link', 'lang', 'priority'
         ]);
         $slider = SliderService::make(SliderService::new()
             ->findByIdWithRelation($id))

@@ -25,16 +25,11 @@ class Box extends Model implements HasMedia
         'color'
     ];
 
-    public function post(): BelongsTo
-    {
-        return $this->belongsTo(Section::class);
-    }
-
     public function section()
     {
         return $this->belongsTo(Section::class);
     }
-    
+
     static function schema()
     {
         Schema::create('boxes', function (Blueprint $table) {

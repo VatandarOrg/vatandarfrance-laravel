@@ -23,11 +23,6 @@ class Slider extends Model implements HasMedia
         'priority'
     ];
 
-    public function boxes(): HasMany
-    {
-        return $this->hasMany(Box::class);
-    }
-
     static function schema()
     {
         Schema::create('sliders', function (Blueprint $table) {

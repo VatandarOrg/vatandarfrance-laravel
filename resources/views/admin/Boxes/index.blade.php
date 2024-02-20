@@ -118,6 +118,7 @@
                         <th scope="col" class="text-right font-bold text-sm py-2 px-5">شناسه</th>
                         <th scope="col" class="text-right font-bold text-sm py-2 px-2">تصویر</th>
                         <th scope="col" class="text-right font-bold text-sm py-2 px-2">نام {{ __('Box') }}</th>
+                        <th scope="col" class="text-right font-bold text-sm py-2 px-2">سکشن</th>
                         <th scope="col" class="text-right font-bold text-sm py-2 px-2">زبان</th>
                         <th scope="col" class="text-right font-bold text-sm py-2 px-2">اولویت</th>
                         <th scope="col" class="text-right font-bold text-sm py-2 px-2">عملیات </th>
@@ -131,6 +132,7 @@
                                 <img src="{{ $box->getFirstMediaUrl() }}" alt="" class="h-12">
                             </td>
                             <td class="font-medium text-sm py-4 px-2">{{ $box->name }}</td>
+                            <td class="font-medium text-sm py-4 px-2">{{ $box->section->name }}</td>
                             <td class="font-medium text-sm py-4 px-2">{{ $box->lang }}</td>
                             <td class="font-medium text-sm py-4 px-2">{{ $box->priority }}</td>
                             <td class="font-medium text-sm py-4 px-2">

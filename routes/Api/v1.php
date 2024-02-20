@@ -52,4 +52,7 @@ Route::prefix('v1')->group(function (Router $router) {
                 ->middleware('auth:sanctum');
         }
     );
+
+    $router->get('/home', App\Http\Controllers\Api\V1\HomeController::class)
+        ->middleware('auth:sanctum');
 });

@@ -1,7 +1,10 @@
 <?php
-namespace App\Http\Resources\Post;
+
+namespace App\Http\Resources\Api\V1\Slider;
+
 use Illuminate\Http\Resources\Json\JsonResource;
-class PostWithoutRelationResource extends JsonResource
+
+class SliderWithoutRelationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -11,6 +14,11 @@ class PostWithoutRelationResource extends JsonResource
      */
     public function toArray($request)
     {
-        return ['id' => $this->id,'user_id' => $this->user_id,'created_at' => $this->created_at,];
+        return [
+            'name' => $this->name,
+            'image' => $this->getFirstMediaUrl(),
+            'web_view' => (bool)$this->web_view,
+            'link' => $this->link,
+        ];
     }
 }
