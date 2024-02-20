@@ -33,7 +33,16 @@ Route::prefix('v1')->group(function (Router $router) {
             $router->post('/login', App\Http\Controllers\Api\V1\Auth\LoginController::class)
                 ->middleware(['guest', 'throttle:10,1']);
 
-            $router->post('/forgot-password', [App\Http\Controllers\Api\V1\Auth\PasswordResetLinkController::class, 'store'])
+            $router->post('/forgot-password/email', [App\Http\Controllers\Api\V1\Auth\PasswordResetLinkController::class, 'email'])
+                ->middleware('guest');
+
+            $router->post('/forgot-password/mobile', [App\Http\Controllers\Api\V1\Auth\PasswordResetLinkController::class, 'mobile'])
+                ->middleware('guest');
+
+            $router->post('/reset-password/email', [App\Http\Controllers\Api\V1\Auth\NewPasswordController::class, 'email'])
+                ->middleware('guest');
+
+            $router->post('/reset-password/mobile', [App\Http\Controllers\Api\V1\Auth\NewPasswordController::class, 'mobile'])
                 ->middleware('guest');
 
             $router->post('/change-password', App\Http\Controllers\Api\V1\Auth\ChangePasswordController::class)
@@ -41,9 +50,6 @@ Route::prefix('v1')->group(function (Router $router) {
 
             $router->post('/close-account', App\Http\Controllers\Api\V1\Auth\CloseAccountController::class)
                 ->middleware('auth:sanctum');
-
-            $router->post('/reset-password', [App\Http\Controllers\Api\V1\Auth\NewPasswordController::class, 'store'])
-                ->middleware('guest');
         }
     );
 });

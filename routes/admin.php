@@ -48,4 +48,11 @@ Route::middleware(['auth', 'can:admin dashboard'])->group(function (Router $rout
             $router->resource('boxes', App\Http\Controllers\Admin\BoxController::class)->except(['show']);
         }
     );
+
+    Route::group(
+        ['middleware' => ['can:crud post']],
+        function (Router $router) {
+            $router->resource('posts', App\Http\Controllers\Admin\PostController::class)->except(['show']);
+        }
+    );
 });
