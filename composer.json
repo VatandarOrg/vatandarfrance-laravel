@@ -20,7 +20,8 @@
         "milwad/laravel-validate": "^1.7",
         "spatie/laravel-medialibrary": "^10.15",
         "spatie/laravel-permission": "^6.3",
-        "spatie/laravel-sluggable": "^3.5"
+        "spatie/laravel-sluggable": "^3.5",
+        "srmklive/paypal": "~3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

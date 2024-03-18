@@ -13,6 +13,7 @@ use Milwad\LaravelValidate\Rules\ValidPhoneNumber;
 use App\Services\Auth\TwoFactorAuthentication;
 use App\Models\TwoFactor;
 use App\Models\User;
+use App\Services\Subscription\PayPalSubscription;
 
 class RegisterController extends Controller
 {
@@ -28,6 +29,7 @@ class RegisterController extends Controller
     {
         $this->validateForm($request);
 
+        $request->mergeIfMissing(['has_subscription' => false]);
         $inputs = $request->only('first_name', 'last_name', 'email', 'mobile') + ['password' => Hash::make($request->password), 'email_verified_at' => request()->email ? now() : null];
 
         event(
@@ -44,6 +46,7 @@ class RegisterController extends Controller
         }
 
         $token = $user->createToken($request['email']);
+
         return AuthenticatedResponse::login($user, $token);
     }
 

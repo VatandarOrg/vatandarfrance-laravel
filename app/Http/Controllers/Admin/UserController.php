@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\Admin\UserResponse;
 use App\Models\User;
+use App\ProtectionLayers\EnsureUserCanBuySubscription;
 use App\ProtectionLayers\EnsureUserIdExists;
 use App\Services\Permission\PermissionService;
 use App\Services\Role\RoleService;
+use App\Services\Subscription\SubscriptionService;
 use App\Services\User\UserService;
+use Illuminate\Http\Response;
 use Imanghafoori\HeyMan\Facades\HeyMan;
 use Imanghafoori\HeyMan\StartGuarding;
 use Illuminate\Support\Facades\Hash;
@@ -21,10 +24,14 @@ class UserController extends Controller
     public function __construct()
     {
         EnsureUserIdExists::install();
+        EnsureUserCanBuySubscription::install();
+
         resolve(StartGuarding::class)->start();
     }
     public function index()
     {
+        request()->pagination = 10;
+
         $users = UserService::new()->allWithRelationAndPaginate([], 10);
 
         return UserResponse::index($users);
@@ -48,6 +55,13 @@ class UserController extends Controller
             ->create($inputs)
             ->getOrSend([UserResponse::class, 'storeFailed']);
         return UserResponse::store($user);
+    }
+    public function show($id)
+    {
+        HeyMan::checkPoint('EnsureUserIdExists');
+        $user = UserService::new()->findByIdWithRelation($id);
+
+        return UserResponse::show($user);
     }
     public function edit($id)
     {
@@ -103,5 +117,33 @@ class UserController extends Controller
                 Rule::unique('users')->ignore($id),
             ],
         ]);
+    }
+
+    public function addSubscription($id)
+    {
+        HeyMan::checkPoint('EnsureUserIdExists');
+        $user = UserService::new()->findByIdWithRelation($id);
+        if ($user->subscription) {
+            return redirect()->back()->with(['danger-custom' => "کاربر مورد نظر اشتراک دارد."]);
+        }
+        SubscriptionService::new()->create(['user_id' => $user->id, 'expired_at' => request()->expired_at])->getOrSend(function () {
+            return redirect()->back()->with(['danger-custom' => "در روند ایجاد اشتراک برای کاربر مشکلی بوجود آمده."]);
+        });
+        return redirect()->back()->with(['success-custom' => "اشتراک کاربر با موفقیت ایجاد شد."]);
+    }
+
+    public function deleteSubscription($id)
+    {
+        HeyMan::checkPoint('EnsureUserIdExists');
+
+        $user = UserService::new()->findByIdWithRelation($id);
+
+        if (!$user->subscription) {
+            return redirect()->back()->with(['danger-custom' => "کاربر مورد نظر اشتراک ندارد."]);
+        }
+
+        SubscriptionService::make($user->subscription)->delete();
+
+        return redirect()->back()->with(['success-custom' => "اشتراک کاربر با موفقیت حذف شد."]);
     }
 }

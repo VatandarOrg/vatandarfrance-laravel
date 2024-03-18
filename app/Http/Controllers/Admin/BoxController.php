@@ -21,6 +21,8 @@ class BoxController extends Controller
 
     public function index()
     {
+        request()->pagination = 10;
+
         $boxes = BoxService::new()->allWithRelation();
         $sections = SectionService::new()->allWithRelation();
 

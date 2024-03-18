@@ -1,7 +1,10 @@
 <?php
+
 namespace App\Http\Responses\User\Post;
+
 use App\Http\Resources\Api\V1\Post\PostWithoutRelationResource;
 use Illuminate\Http\Response;
+
 class JsonResponses
 {
     public function index($posts)

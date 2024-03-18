@@ -117,7 +117,7 @@
                 <h3 class="text-lg font-semibold leading-6 text-gray-900">لیست {{ __('posts') }}</h3>
             </div>
             <table
-                class="w-full min-w-full divide-y divide-gray-300 shadow-md overflow-hidden sm:rounded-lg border bg-white">
+                class="w-full min-w-full divide-y divide-gray-300 shadow-md overflow-hidden sm:rounded-lg border bg-white mb-4">
                 <thead class="bg-gray-50 sm:rounded-t-lg relative">
                     <tr class="relative">
                         <th scope="col" class="text-right font-bold text-sm py-2 px-5">شناسه</th>
@@ -259,6 +259,7 @@
                     @endforelse
                 </tbody>
             </table>
+            {{ $posts->links() }}
         </div>
     </div>
 </x-app-layout>

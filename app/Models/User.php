@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Services\Auth\Traits\HasTwoFactor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -69,8 +70,16 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
         'name',
-        'username'
+        'username',
+        'full_name',
+        'has_subscription',
+        'remain_subscription_days',
     ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
     public function getUsernameAttribute()
     {
@@ -80,6 +89,26 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getRemainSubscriptionDaysAttribute()
+    {
+        return now()->diffInDays($this->subscription?->expired_at);
+    }
+
+    public function getHasSubscriptionAttribute()
+    {
+        return isset($this->subscription);
+    }
+
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class)->where('expired_at', '>', now());
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(SubscriptionPayment::class);
     }
 
     public static function schema()

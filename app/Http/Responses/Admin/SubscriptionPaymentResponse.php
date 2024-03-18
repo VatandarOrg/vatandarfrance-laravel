@@ -2,11 +2,11 @@
 
 namespace App\Http\Responses\Admin;
 
-use App\Http\Responses\Admin\User\HtmlyResponses;
-use App\Http\Responses\Admin\User\JsonResponses;
+use App\Http\Responses\Admin\SubscriptionPayment\HtmlyResponses;
+use App\Http\Responses\Admin\SubscriptionPayment\JsonResponses;
 use Illuminate\Support\Facades\Facade;
 
-class UserResponse extends Facade
+class SubscriptionPaymentResponse extends Facade
 {
     protected static function getFacadeAccessor()
     {

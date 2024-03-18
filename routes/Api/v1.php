@@ -53,6 +53,19 @@ Route::prefix('v1')->group(function (Router $router) {
         }
     );
 
-    $router->get('/home', App\Http\Controllers\Api\V1\HomeController::class)
+    $router->get('/payments', App\Http\Controllers\Api\V1\Subscription\PaymentIndexController::class)
         ->middleware('auth:sanctum');
+
+    $router->get('/subscription/create', App\Http\Controllers\Api\V1\Subscription\PaymentCreateController::class)
+        ->middleware('auth:sanctum');
+
+    $router->get('/subscription/callback', App\Http\Controllers\Api\V1\Subscription\PaymentCallbackController::class)
+        ->name('subscription.callback');
+
+    $router->get('/subscription/callback/cancel', App\Http\Controllers\Api\V1\Subscription\PaymentCallbackCancelController::class)
+        ->name('subscription.callback.cancel');
+
+    $router->get('/subscription/cancel/{subscription_id}', App\Http\Controllers\Api\V1\Subscription\PaymentCancelController::class)->middleware('auth:sanctum');
+
+    $router->get('/home', App\Http\Controllers\Api\V1\HomeController::class);
 });

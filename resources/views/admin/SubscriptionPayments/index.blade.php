@@ -2,84 +2,59 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Section') }}
+                {{ __('SubscriptionPayment') }}
             </h2>
         </div>
         @include('partials.alert')
     </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="md:grid md:grid-cols-3 md:gap-6">
-                <div class="md:col-span-1">
-                    <div class="px-4 sm:px-0">
-                        <h3 class="text-lg font-semibold leading-6 text-gray-900">افزودن {{ __('Section') }}</h3>
-                        <p class="mt-1 text-sm text-gray-600">ساخت {{ __('Sections') }}‌ در سایت از
-                            این بخش انجام می‌شود.</p>
-                    </div>
-                </div>
-                <div class="mt-5 md:col-span-2 md:mt-0">
-                    <div class="bg-white overflow-hidden shadow-md sm:rounded-lg">
-                        <div class="mt-5 md:mt-0 md:col-span-2">
-                            <div class="shadow overflow-hidden sm:rounded-md">
-                                <div class="px-4 py-5 bg-white sm:p-6">
-                                    <form method="POST" action="{{ route('admin.sections.store') }}" class="space-y-3">
-                                        @csrf
-                                        <div>
-                                            <x-label for="name" value="نام" />
-                                            <x-input id="name" class="block mt-1 w-full" type="text"
-                                                name="name" :value="old('name')" required autofocus
-                                                autocomplete="name" />
-                                            <x-input-error for="name" />
-                                        </div>
-                                        <div class="mt-4">
-                                            <x-label for="priority" value="اولویت" />
-                                            <x-input id="priority" class="block mt-1 w-full" type="text"
-                                                name="priority" :value="old('priority')" autofocus autocomplete="priority" />
-                                            <x-input-error for="priority" />
-                                        </div>
-                                        <div class="flex items-center justify-end mt-4">
-                                            <x-button class="mr-4">
-                                                {{ __('Submit') }}
-                                            </x-button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="py-5">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="px-4 sm:px-0 mb-5">
-                <h3 class="text-lg font-semibold leading-6 text-gray-900">لیست {{ __('Sections') }}</h3>
+                <h3 class="text-lg font-semibold leading-6 text-gray-900">لیست {{ __('subscription_payments') }}</h3>
             </div>
             <table
                 class="w-full min-w-full divide-y divide-gray-300 shadow-md overflow-hidden sm:rounded-lg border bg-white mb-4">
                 <thead class="bg-gray-50 sm:rounded-t-lg relative">
                     <tr class="relative">
                         <th scope="col" class="text-right font-bold text-sm py-2 px-5">شناسه</th>
-                        <th scope="col" class="text-right font-bold text-sm py-2 px-2">نام {{ __('Section') }}</th>
-                        <th scope="col" class="text-right font-bold text-sm py-2 px-2">اولویت</th>
+                        <th scope="col" class="text-right font-bold text-sm py-2 px-2">کاربر</th>
+                        <th scope="col" class="text-right font-bold text-sm py-2 px-2">ایدی پی پل</th>
+                        <th scope="col" class="text-right font-bold text-sm py-2 px-2">وضعیت</th>
+                        <th scope="col" class="text-right font-bold text-sm py-2 px-2">تاریخ شروع</th>
+                        <th scope="col" class="text-right font-bold text-sm py-2 px-2">تاریخ پایان</th>
                         <th scope="col" class="text-right font-bold text-sm py-2 px-2">عملیات </th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
-                    @forelse ($sections as $section)
+                    @forelse ($subscription_payments as $subscriptionpayment)
                         <tr>
-                            <td class="font-medium text-sm py-4 px-5">{{ $section->id }}</td>
-                            <td class="font-medium text-sm py-4 px-2">{{ $section->name }}</td>
-                            <td class="font-medium text-sm py-4 px-2">{{ $section->priority }}</td>
+                            <td class="font-medium text-sm py-4 px-5">{{ $subscriptionpayment->id }}</td>
+                            <td class="font-medium text-sm py-4 px-2 underline"><a
+                                    href="{{ route('admin.users.show', $subscriptionpayment->user->id) }}">{{ $subscriptionpayment->user->username }}</a>
+                            </td>
+                            <td class="font-medium text-sm py-4 px-2">{{ $subscriptionpayment->paypal_subscription_id }}
+                            </td>
                             <td class="font-medium text-sm py-4 px-2">
+                                @if ($subscriptionpayment->status == 'ACTIVE')
+                                    <span
+                                        class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ $subscriptionpayment->status }}</span>
+                                @else
+                                    <span
+                                        class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">{{ $subscriptionpayment->status }}</span>
+                                @endif
+                            </td>
+                            <td class="font-medium text-sm py-4 px-2">{{ $subscriptionpayment->start_time }}</td>
+                            <td class="font-medium text-sm py-4 px-2">{{ $subscriptionpayment->expired_at }}</td>
+                            <td class="font-medium text-sm py-4 px-2">
+
                                 <div class="flex space-x-2 space-x-reverse">
-                                    <a href="{{ route('admin.sections.edit', $section->id) }}"
+                                    <a href="{{ route('admin.subscription_payments.show', $subscriptionpayment->id) }}"
                                         class="flex items-center content-center justify-center text-yellow-500 bg-yellow-100 h-7 w-7 rounded">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                            class="w-4 h-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor"
+                                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                                             <path
-                                                d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z" />
+                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
                                         </svg>
                                     </a>
                                     <div x-data="{ open: false }">
@@ -127,20 +102,20 @@
                                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 24 24" stroke="currentColor"
                                                                     aria-hidden="true">
-                                                                    <path stroke-linecap="round"
-                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
                                                                         d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
                                                                     </path>
                                                                 </svg>
                                                             </div>
-                                                            <div
-                                                                class="mt-3 text-center sm:mt-0 sm:mr-4 sm:text-right">
+                                                            <div class="mt-3 text-center sm:mt-0 sm:mr-4 sm:text-right">
                                                                 <h3 class="text-lg leading-6 font-bold text-gray-900">
-                                                                    حذف {{ __('Section') }}
+                                                                    حذف {{ __('SubscriptionPayment') }}
                                                                 </h3>
                                                                 <div class="mt-2">
                                                                     <p class="text-sm leading-6 text-gray-500">
-                                                                        آیا از حذف این {{ __('Section') }} مطمئن هستید؟
+                                                                        آیا از حذف این {{ __('SubscriptionPayment') }}
+                                                                        مطمئن هستید؟
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -149,7 +124,7 @@
                                                     <div
                                                         class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                                         <form
-                                                            action="{{ route('admin.sections.destroy', $section->id) }}"
+                                                            action="{{ route('admin.subscription_payments.destroy', $subscriptionpayment->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('delete')
@@ -191,7 +166,7 @@
                     @endforelse
                 </tbody>
             </table>
-            {{ $sections->links() }}
+            {{ $subscription_payments->links() }}
 
         </div>
     </div>

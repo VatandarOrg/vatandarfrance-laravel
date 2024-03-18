@@ -24,7 +24,9 @@ Route::middleware(['auth', 'can:admin dashboard'])->group(function (Router $rout
     Route::group(
         ['middleware' => ['can:crud user']],
         function (Router $router) {
-            $router->resource('users', App\Http\Controllers\Admin\UserController::class)->except(['show']);
+            $router->resource('users', App\Http\Controllers\Admin\UserController::class);
+            $router->post('users/{user}/subscription', [App\Http\Controllers\Admin\UserController::class, 'addSubscription'])->name('users.subscription.add');
+            $router->delete('users/{user}/subscription', [App\Http\Controllers\Admin\UserController::class, 'deleteSubscription'])->name('users.subscription.delete');
         }
     );
 
@@ -53,6 +55,13 @@ Route::middleware(['auth', 'can:admin dashboard'])->group(function (Router $rout
         ['middleware' => ['can:crud post']],
         function (Router $router) {
             $router->resource('posts', App\Http\Controllers\Admin\PostController::class)->except(['show']);
+        }
+    );
+
+    Route::group(
+        ['middleware' => ['can:crud payment']],
+        function (Router $router) {
+            $router->resource('subscription_payments', App\Http\Controllers\Admin\SubscriptionPaymentController::class)->except(['store', 'edit', 'update', 'create']);
         }
     );
 });

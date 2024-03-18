@@ -56,5 +56,4 @@ class MakeServiceCommand extends Command
     {
         return ucwords(Pluralizer::singular($name));
     }
-
 }

@@ -19,6 +19,8 @@ class SliderController extends Controller
     }
     public function index()
     {
+        request()->pagination = 10;
+
         $sliders = SliderService::new()->allWithRelation();
         return SliderResponse::index($sliders);
     }

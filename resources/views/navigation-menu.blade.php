@@ -36,6 +36,9 @@
                     <x-nav-link href="{{ route('admin.posts.index') }}" :active="request()->routeIs('admin.posts.*')">
                         {{ __('Post') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.subscription_payments.index') }}" :active="request()->routeIs('admin.subscription_payments.*')">
+                        {{ __('Subscription payment') }}
+                    </x-nav-link>
                 </div>
             </div>
 

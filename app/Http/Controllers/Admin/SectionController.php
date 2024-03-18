@@ -19,6 +19,8 @@ class SectionController extends Controller
     }
     public function index()
     {
+        request()->pagination = 10;
+
         $sections = SectionService::new()->allWithRelation();
         return SectionResponse::index($sections);
     }

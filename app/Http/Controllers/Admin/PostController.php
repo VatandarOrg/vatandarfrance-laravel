@@ -20,6 +20,7 @@ class PostController extends Controller
     }
     public function index()
     {
+        request()->pagination = 10;
         $posts = PostService::new()->allWithRelation();
         $sections = SectionService::new()->allWithRelation();
 

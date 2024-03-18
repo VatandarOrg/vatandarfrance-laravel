@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Responses\Admin\User;
 
 class HtmlyResponses
@@ -14,6 +15,10 @@ class HtmlyResponses
     public function create($roles, $permissions)
     {
         return view('admin.users.create', compact('roles', 'permissions'));
+    }
+    public function show($user)
+    {
+        return view('admin.users.show', compact('user'));
     }
     public function edit($user, $roles, $permissions)
     {
